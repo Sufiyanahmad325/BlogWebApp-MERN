@@ -262,7 +262,7 @@ This is a solid junior-level full-stack portfolio project and resume-ready.
 **Sufiyan Ahmad**  
 MERN Stack Developer  
 
-📧 Email: sufiyanahmad325gmail.com  
+📧 Email: sufiyanahmad325@gmail.com  
 🌐 LinkedIn: https://linkedin.com/in/sufiyanahmad325  
 🐙 GitHub: https://github.com/Sufiyanahmad325
 

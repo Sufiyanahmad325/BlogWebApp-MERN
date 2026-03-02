@@ -26,9 +26,6 @@ function App() {
     if (userDetails != null) {
       try {
         const res = await axios.get('http://localhost:8000/api/v1/users/logout', {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          },
           withCredentials: true
         })
 

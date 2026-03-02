@@ -520,18 +520,16 @@ export const deleteUserAccount = asyncHandler((async (req, res, next) => {
         throw new ApiError("incorrect password", 401)
     }
 
-
-
-    const response = await User.findByIdAndDelete(req.user._id)
-
-    if (!response) {
-        throw new ApiError("failed to delete user account", 500)
-    }
-
     const userBlogsDelete = await Post.deleteMany({ author: req.user._id })
 
     if (!userBlogsDelete) {
         throw new ApiError("failed to delete user blogs", 500)
+    }
+
+     const response = await User.findByIdAndDelete(req.user._id)
+
+    if (!response) {
+        throw new ApiError("failed to delete user account", 500)
     }
 
 

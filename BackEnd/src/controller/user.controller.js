@@ -587,5 +587,40 @@ export const readBlog = asyncHandler(async (req, res, next) => {
 
 
 
+export const totalBlogYouGetLike = asyncHandler(async (req, res, next) => {
+    console.log('hello')
+    const user = req.user
+    const totalLike = await Post.aggregate([
+  
+  // Step 1: Sirf wahi blogs jisme likes field exist kare
+  {
+    $match: {
+      likes: { $exists: true  , $ne: [] }, // ✅ likes field exist kare aur empty na ho
+      author: user._id // ✅ sirf current user ke blogs ko consider karo
+    }
+  },
+
+  // Step 2: Har blog ka likes count nikalo
+  {
+    $project: {
+      likesCount: { $size: "$likes" } // kya ye size array ka length deta hai ya wo total likes count deta hai ? ans => yes, $size operator array ke length ko return karta hai, toh yahan har blog ke likes array ka length yani total likes count mil jayega
+    }
+  },
+
+  // Step 3: Sab likes ko add kardo
+  {
+    $group: {
+      _id: null,
+      totalLikes: { $sum: "$likesCount" }
+    }
+  }
+
+])
+
+    res.status(200).json(
+        new ApiResponse(200, totalLike, "total like you get on your blogs")
+    )
+}
+)
 
 

@@ -2,11 +2,13 @@ import React, { useContext, useState } from "react";
 import { BlogContext } from "../App";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoSettings } from "react-icons/io5";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
 
- 
+ const [totalLikes, setTotalLikes] = useState(0)
 
   // access of context
   const {userAllBlog, userDetails, deleteBlog } = useContext(BlogContext);
@@ -14,6 +16,17 @@ export default function ProfilePage() {
   const deleteThisBlog = async (id) => {
     await deleteBlog(id)
   }
+
+
+  useEffect(()=>{
+    const findTotalLikes = async()=>{
+      let res = await axios.get('http://localhost:8000/api/v1/users/getTotalLike',{
+        withCredentials:true
+      })
+      setTotalLikes(res.data.data[0]?.totalLikes)
+    }
+     findTotalLikes()
+  },[])
 
   return (
     <div className="container sm:h-[90vh] mx-auto px-6 py-5 bg-amber-50 ">
@@ -33,7 +46,8 @@ export default function ProfilePage() {
 
             {/* Blog Count */}
             <div className="flex space-x-6 text-gray-600 my-4">
-              <span>✍️ {userAllBlog?.length} Blogs</span>
+              <span className="bg-gray-400 text-black px-3 py-1 rounded-sm ">✍️ {userAllBlog?.length} Blogs</span>
+              <span className=" bg-gray-400 text-black px-3 py-1 rounded-sm " >Total Likes {totalLikes}  </span>
             </div>
 
             <p className="text-center text-gray-600 text-sm">
